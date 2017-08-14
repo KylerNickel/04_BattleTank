@@ -24,9 +24,22 @@ public:
 	
 
 private:
+	UPROPERTY(EditAnywhere)
+	float CrosshairXLocation = 0.5f;
+	
+	UPROPERTY(EditAnywhere)
+	float CrosshairYLocation = 0.33333f;
+
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 100000.f;
+	
 	// Start the tank moving the barrel towards where the UI crosshair is pointing in the world
 	void AimAtCrosshair();
 
 	// Gets world location of linetrace through crosshair, true if hits landscape - returns an out FVector
 	bool GetSightRayHitLocation(FVector&) const;
+	
+	// Takes in screen location, gets LookDirection as an out parameter
+	bool GetLookDirection(FVector2D, FVector&) const;
+	bool GetLookVectorHitLocation(FVector, FVector&) const;
 };
