@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 #include "Classes/Components/InputComponent.h"
 #include "TankBarrel.h"
+#include "Projectile.h"
 #include "TankAimingComponent.h"
 #include "Tank.h"
 
@@ -13,7 +14,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	// No need to protect points as added at construction
-	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>("Aiming Component");
 }
 
 // Called when the game starts or when spawned
@@ -28,14 +29,26 @@ void ATank::AimAt(FVector HitLocation)
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 
-void ATank::Fire(AActor* Projectile)
+void ATank::Fire()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Tank has fired"));
+
+	if (!Barrel) { return; }
+
+	// Spawn a projectile at the socket location on the barrel
+	auto projectile = GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBlueprint, 
+		Barrel->GetSocketLocation("Projectile"), 
+		Barrel->GetSocketRotation("Projectile")
+		);
+
+	projectile->LaunchProjectile(LaunchSpeed);
 }
 
 void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 
 void ATank::SetTurretReference(UTankTurret* TurretToSet)
