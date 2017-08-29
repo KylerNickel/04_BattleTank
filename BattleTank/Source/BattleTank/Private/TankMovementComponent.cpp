@@ -7,18 +7,35 @@
 
 void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet) { return; }
-
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 }
 
-void UTankMovementComponent::IntendMoveForward(float Throw)
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"), Throw);
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+	
+	auto YAxisThrow = FVector::DotProduct(AIForwardIntention, TankForward);
+	IntendMoveYAxis(YAxisThrow);
 
+	auto XAxisThrow = FVector::CrossProduct(AIForwardIntention, TankForward).Z;
+	IntendMoveXAxis(XAxisThrow);
+}
+
+void UTankMovementComponent::IntendMoveYAxis(float Throw)
+{
+	if (!LeftTrack || !RightTrack) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
+	// TODO Prevent double speed due to dual control input
+}
+
+void UTankMovementComponent::IntendMoveXAxis(float Throw)
+{
+	if (!LeftTrack || !RightTrack) { return; }
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(-Throw);
 	// TODO Prevent double speed due to dual control input
 }
 

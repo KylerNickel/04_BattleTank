@@ -13,13 +13,11 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
+void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
-	Barrel = BarrelToSet;
-}
+	if (!BarrelToSet || !TurretToSet) { return; }
 
-void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
-{
+	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 }
 
