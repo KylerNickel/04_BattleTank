@@ -9,7 +9,6 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
-class UTankMovementComponent;
 class AProjectile;
 
 UCLASS()
@@ -27,6 +26,7 @@ public:
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:
@@ -51,6 +51,6 @@ private:
 	double LastFireTime = 0;
 
 	// Local barrel reference for spawning projectile
-	UTankBarrel* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr; // TODO REMOVE
 
 };

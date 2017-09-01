@@ -25,7 +25,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 void UTankMovementComponent::IntendMoveYAxis(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack || RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 	// TODO Prevent double speed due to dual control input
@@ -33,7 +33,7 @@ void UTankMovementComponent::IntendMoveYAxis(float Throw)
 
 void UTankMovementComponent::IntendMoveXAxis(float Throw)
 {
-	if (!LeftTrack || !RightTrack) { return; }
+	if (!ensure(LeftTrack || RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 	// TODO Prevent double speed due to dual control input
