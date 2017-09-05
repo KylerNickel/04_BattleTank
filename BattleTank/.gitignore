@@ -1,3 +1,9 @@
+BattleTank/BattleTank.VC.VC.opendb
+*.db-wal
+*.db-shm
+*.opendb
+
+
 *.ipch 
 *.VC.db
 
@@ -117,8 +123,3 @@ Intermediate/*
 
 DerivedDataCache/*
 
-
-
-# Starter Content
-
-Content/StarterContent
