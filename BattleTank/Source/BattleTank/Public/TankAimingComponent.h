@@ -17,7 +17,8 @@ enum class EFiringStatus : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	Out_Of_Ammo
 };
 
 // Holds all aiming functionality
@@ -38,6 +39,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Controls)
 	void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	int32 GetCurrentAmmo() const;
+
 	EFiringStatus GetFiringStatus() const;
 
 protected:
@@ -48,6 +52,11 @@ private:
 	// FIRING VARIABLES--------------------------
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 10000;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	int32 Ammo = 10;
+
+	int32 CurrentAmmo;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTimeInSeconds = 3;
